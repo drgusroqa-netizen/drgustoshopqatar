@@ -1,0 +1,3532 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>د. جوستو شوب - مستلزمات تزيين الكيك والشوكولاتة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --primary-pink: #db2777;
+            --secondary-pink: #f472b6;
+            --light-bg: #f8fafc;
+            --dark-text: #1f2937;
+            --light-text: #6b7280;
+            --white: #ffffff;
+            --border-color: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-pink) 100%);
+        }
+
+        .login-box {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            text-align: center;
+        }
+
+        .login-title {
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .login-subtitle {
+            color: var(--light-text);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to left, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-pink {
+            background: linear-gradient(to left, var(--primary-pink), var(--secondary-pink));
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 14px;
+            width: auto;
+        }
+
+        /* Header & Navigation */
+        .header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .header-logo {
+            height: 40px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 22px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 0;
+            margin-right: 30px;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-pink);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-blue);
+            border-radius: 2px;
+        }
+
+        .cart-summary {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cart-summary:hover {
+            background-color: #e0f2fe;
+        }
+
+        .cart-icon {
+            margin-right: 0;
+            margin-left: 8px;
+            color: var(--primary-pink);
+        }
+
+        /* Settings Menu */
+        .settings-menu {
+            position: relative;
+        }
+
+        .settings-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-text);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .settings-btn:hover {
+            background-color: var(--light-bg);
+        }
+
+        .settings-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .settings-dropdown.show {
+            display: block;
+        }
+
+        .settings-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .settings-item:hover {
+            background-color: var(--light-bg);
+        }
+
+        .settings-item i {
+            margin-left: 10px;
+            color: var(--light-text);
+            width: 20px;
+        }
+
+        .language-options {
+            padding: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .lang-option {
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .lang-option:hover {
+            background-color: var(--light-bg);
+        }
+
+        .lang-option.active {
+            background-color: var(--secondary-blue);
+            color: white;
+        }
+
+        /* Products Page */
+        .page-title {
+            margin: 30px 0;
+            color: var(--primary-blue);
+            font-size: 28px;
+            text-align: right;
+        }
+
+        .search-bar {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 16px;
+            padding-right: 50px;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 180px;
+            width: 100%;
+            background-color: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light-text);
+            font-size: 14px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: right;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+
+        .product-price {
+            color: var(--primary-pink);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        /* Product Details Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--light-text);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .product-details {
+                flex-direction: row;
+            }
+        }
+
+        .product-details-image {
+            flex: 1;
+            min-height: 300px;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .product-details-image {
+                margin-bottom: 0;
+                margin-left: 30px;
+            }
+        }
+
+        .product-details-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-details-info {
+            flex: 1;
+        }
+
+        .product-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: var(--light-text);
+        }
+
+        .product-comments {
+            margin-top: 30px;
+        }
+
+        .comments-title {
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+            font-size: 18px;
+        }
+
+        .comments-list {
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .comment-item {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            color: var(--dark-text);
+        }
+
+        .add-comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .comment-input {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            min-height: 60px;
+        }
+
+        /* Cart Page */
+        .cart-page {
+            padding-bottom: 50px;
+        }
+
+        .cart-items {
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            align-items: center;
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-left: 20px;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary-pink);
+            font-weight: 600;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background-color: var(--light-bg);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-value {
+            margin: 0 10px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .cart-item-remove {
+            background-color: transparent;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .cart-summary-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .discount-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .discount-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .discount-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .price-summary {
+            margin-top: 20px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .price-total {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-blue);
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        /* Contact Page */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: right;
+        }
+
+        .contact-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .contact-card p {
+            margin-bottom: 10px;
+            color: var(--light-text);
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Admin Pages */
+        .admin-header {
+            background: linear-gradient(to left, var(--primary-blue), var(--primary-pink));
+            color: white;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+
+        .admin-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .admin-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: right;
+        }
+
+        .admin-section h3 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .product-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--light-bg);
+            text-align: right;
+        }
+
+        .delete-btn {
+            background-color: var(--error);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            text-align: right;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-delete {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: transparent;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Discount Management */
+        .discount-management {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .discount-form {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .discount-list {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .date-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .date-inputs input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .discount-item {
+            padding: 15px;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .discount-code {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .discount-percentage {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .discount-dates {
+            font-size: 12px;
+            color: var(--light-text);
+        }
+
+        /* Image Upload */
+        .image-upload-container {
+            margin-bottom: 15px;
+        }
+
+        .image-preview {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            overflow: hidden;
+            background-color: #f9fafb;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .upload-placeholder {
+            text-align: center;
+            color: var(--light-text);
+        }
+
+        .upload-placeholder i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: var(--secondary-blue);
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .upload-btn:hover {
+            background-color: var(--secondary-blue);
+            color: white;
+        }
+
+        .image-upload-input {
+            display: none;
+        }
+
+        /* Payment & Location Pages */
+        .payment-steps {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 200px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: var(--light-text);
+            margin-bottom: 10px;
+            z-index: 2;
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 20px;
+            right: 50%;
+            width: 100%;
+            height: 3px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+
+        .step:last-child .step-line {
+            display: none;
+        }
+
+        .location-form {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            text-align: right;
+        }
+
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .payment-info {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--white);
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 30px auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .bank-details {
+            background-color: #f0f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            border-right: 4px solid var(--primary-blue);
+        }
+
+        .contact-phone {
+            background-color: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 16px;
+            color: var(--primary-blue);
+            border-right: 4px solid var(--primary-pink);
+        }
+
+        .alert-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            color: var(--error);
+            border-right: 4px solid var(--error);
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-right: 4px solid var(--success);
+        }
+
+        /* Account Info Page */
+        .account-info {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            font-weight: 600;
+            min-width: 150px;
+            color: var(--primary-blue);
+        }
+
+        .info-value {
+            flex: 1;
+            color: var(--dark-text);
+        }
+
+        /* Site Editor */
+        .site-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .editor-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .editor-item label {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .editor-item textarea {
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .editor-item input {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+            text-align: right;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #d1d5db;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .align-center {
+            align-items: center;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <div class="logo-container">
+                <div class="logo">د. جوستو<br>قطر</div>
+            </div>
+            <h1 class="login-title">مرحباً بكم في متجر د. جوستو</h1>
+            <p class="login-subtitle">مستلزمات تزيين الكيك والشوكولاتة الفاخرة</p>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                </div>
+                
+                <button type="submit" class="btn">تسجيل الدخول</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App (hidden until login) -->
+    <div id="appContainer" class="hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="container header-content">
+                <div class="d-flex align-center">
+                    <div class="header-logo">د. جوستو</div>
+                    <nav>
+                        <ul class="nav-links">
+                            <li><a href="#" id="navProducts" class="active">المنتجات</a></li>
+                            <li><a href="#" id="navContact">اتصل بنا</a></li>
+                            <li><a href="#" id="navAdmin" class="hidden">لوحة التحكم</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                
+                <div class="d-flex align-center">
+                    <div class="cart-summary" id="cartBtn">
+                        <span id="cartTotal">ريال قطري 0.00</span>
+                        <i class="fas fa-shopping-cart cart-icon"></i>
+                    </div>
+                    
+                    <div class="settings-menu">
+                        <button class="settings-btn" id="settingsBtn">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <div class="settings-dropdown" id="settingsDropdown">
+                            <div class="settings-item" id="accountSettingsBtn">
+                                <i class="fas fa-user"></i>
+                                <span>معلومات الحساب</span>
+                            </div>
+                            <div class="settings-item" id="languageSettingsBtn">
+                                <i class="fas fa-globe"></i>
+                                <span>اللغة</span>
+                            </div>
+                            <div class="language-options hidden" id="languageOptions">
+                                <div class="lang-option" data-lang="ar">العربية</div>
+                                <div class="lang-option" data-lang="en">English</div>
+                                <div class="lang-option" data-lang="es">Español</div>
+                                <div class="lang-option" data-lang="tr">Türkçe</div>
+                            </div>
+                            <div class="settings-item" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>تسجيل الخروج</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Products Page -->
+        <section id="productsPage" class="container">
+            <h1 class="page-title" data-translate="products_title">منتجاتنا الفاخرة</h1>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="productSearch" placeholder="ابحث عن منتج...">
+            </div>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+            
+            <div class="text-center">
+                <button id="checkoutBtn" class="btn btn-pink" data-translate="proceed_to_checkout">إتمام الشراء</button>
+            </div>
+        </section>
+
+        <!-- Cart Page -->
+        <section id="cartPage" class="container hidden">
+            <h1 class="page-title" data-translate="shopping_cart">سلة التسوق</h1>
+            
+            <div class="cart-page">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                
+                <div class="cart-summary-section">
+                    <div class="discount-section">
+                        <h3 data-translate="discount_codes">أكواد الخصم</h3>
+                        <div class="discount-input">
+                            <input type="text" id="discountCode" placeholder="أدخل كود الخصم">
+                            <button id="applyDiscountBtn" class="btn btn-small">تطبيق</button>
+                        </div>
+                        <div id="discountMessage" class="alert-message hidden"></div>
+                    </div>
+                    
+                    <div class="price-summary">
+                        <div class="price-row">
+                            <span data-translate="subtotal">المجموع الفرعي:</span>
+                            <span id="subtotalPrice">ريال قطري 0.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span data-translate="discount">الخصم:</span>
+                            <span id="discountPrice">ريال قطري 0.00</span>
+                        </div>
+                        <div class="price-row price-total">
+                            <span data-translate="total">الإجمالي:</span>
+                            <span id="totalPrice">ريال قطري 0.00</span>
+                        </div>
+                    </div>
+                    
+                    <button id="proceedToPaymentBtn" class="btn btn-pink w-100 mt-20" data-translate="proceed_to_payment">المتابعة للدفع</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Page -->
+        <section id="contactPage" class="container hidden">
+            <h1 class="page-title" data-translate="contact_us">اتصل بنا</h1>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3 id="storeNameDisplay" data-translate="store_name">د. جوستو مستلزمات تزيين الكيك والشوكولاتة</h3>
+                        <div id="contactDetailsDisplay">
+                            <p><i class="fas fa-map-marker-alt"></i> <span data-translate="qatar">قطر</span></p>
+                            <p><i class="fas fa-phone"></i> 77791874</p>
+                            <p><i class="fas fa-envelope"></i> info@drgustoshop.com</p>
+                            <p><i class="fas fa-clock"></i> <span data-translate="working_hours">ساعات العمل: من 8:00 صباحاً إلى 10:00 مساءً</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3 data-translate="about_our_store">عن متجرنا</h3>
+                        <p id="storeInfoDisplay" data-translate="store_description">نوفر مستلزمات تزيين الكيك والشوكولاتة عالية الجودة للخبازين المحترفين وهواة المنازل. تم اختيار منتجاتنا بعناية لضمان أفضل النتائج لإبداعاتك.</p>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <div class="contact-card">
+                        <h3 data-translate="send_us_message">أرسل لنا رسالة</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="contactName" data-translate="your_name">اسمك</label>
+                                <input type="text" id="contactName" placeholder="أدخل اسمك">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactEmail" data-translate="email_address">البريد الإلكتروني</label>
+                                <input type="email" id="contactEmail" placeholder="أدخل بريدك الإلكتروني">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactMessage" data-translate="message">الرسالة</label>
+                                <textarea id="contactMessage" placeholder="أدخل رسالتك..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn" data-translate="send_message">إرسال الرسالة</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Account Info Page -->
+        <section id="accountPage" class="container hidden">
+            <h1 class="page-title" data-translate="account_information">معلومات الحساب</h1>
+            
+            <div class="account-info">
+                <div class="info-item">
+                    <div class="info-label" data-translate="email">البريد الإلكتروني:</div>
+                    <div class="info-value" id="accountEmail"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label" data-translate="password">كلمة المرور:</div>
+                    <div class="info-value" id="accountPassword"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label" data-translate="account_type">نوع الحساب:</div>
+                    <div class="info-value" id="accountType"></div>
+                </div>
+            </div>
+            
+            <button id="backToMainBtn" class="btn" data-translate="back_to_main">العودة للرئيسية</button>
+        </section>
+
+        <!-- Admin Interface -->
+        <section id="adminPage" class="hidden">
+            <div class="admin-header">
+                <div class="container admin-header-content">
+                    <h2 class="admin-title" data-translate="admin_dashboard">لوحة تحكم المدير</h2>
+                    <div class="admin-actions">
+                        <button id="adminProductsBtn" class="btn" data-translate="manage_products">إدارة المنتجات</button>
+                        <button id="adminDiscountsBtn" class="btn" data-translate="manage_discounts">إدارة الخصومات</button>
+                        <button id="adminContactBtn" class="btn btn-pink" data-translate="edit_contact_page">تحرير صفحة الاتصال</button>
+                        <button id="adminOrdersBtn" class="btn" data-translate="view_orders">عرض الطلبات</button>
+                        <button id="adminSiteEditorBtn" class="btn" data-translate="site_editor">محرر الموقع</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container">
+                <!-- Admin Products Management -->
+                <section id="adminProductsSection" class="admin-section">
+                    <h3 data-translate="manage_products">إدارة المنتجات</h3>
+                    
+                    <div class="form-group">
+                        <label for="adminProductName" data-translate="product_name">اسم المنتج</label>
+                        <input type="text" id="adminProductName" placeholder="أدخل اسم المنتج">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminProductDescription" data-translate="product_description">وصف المنتج</label>
+                        <textarea id="adminProductDescription" placeholder="أدخل وصف المنتج"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminProductPrice" data-translate="product_price">السعر (ريال قطري)</label>
+                        <input type="number" id="adminProductPrice" placeholder="أدخل السعر بالريال القطري" min="0" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminProductImage" data-translate="product_image">صورة المنتج</label>
+                        <div class="image-upload-container">
+                            <div class="image-preview" id="productImagePreview">
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>سيظهر معاينة الصورة هنا</span>
+                                </div>
+                                <img id="productImagePreviewImg" src="" alt="معاينة صورة المنتج">
+                            </div>
+                            <label class="upload-btn">
+                                <i class="fas fa-upload"></i> اختر صورة من الحاسوب
+                                <input type="file" id="adminProductImageFile" class="image-upload-input" accept="image/*">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button id="addProductBtn" class="btn mb-20" data-translate="add_product">إضافة منتج</button>
+                    
+                    <h3 data-translate="existing_products">المنتجات الحالية</h3>
+                    <div class="products-list" id="adminProductsList">
+                        <!-- Admin products list will be loaded here -->
+                    </div>
+                </section>
+                
+                <!-- Admin Discount Management -->
+                <section id="adminDiscountsSection" class="admin-section hidden">
+                    <h3 data-translate="manage_discounts">إدارة أكواد الخصم</h3>
+                    
+                    <div class="discount-management">
+                        <div class="discount-form">
+                            <div class="form-group">
+                                <label for="discountCodeName" data-translate="discount_code">كود الخصم</label>
+                                <input type="text" id="discountCodeName" placeholder="مثال: SUMMER20">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="discountPercentage" data-translate="discount_percentage">نسبة الخصم (%)</label>
+                                <input type="number" id="discountPercentage" placeholder="مثال: 20" min="1" max="100">
+                            </div>
+                            
+                            <div class="date-inputs">
+                                <div class="form-group">
+                                    <label for="discountStartDate" data-translate="start_date">تاريخ البداية</label>
+                                    <input type="date" id="discountStartDate">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="discountEndDate" data-translate="end_date">تاريخ النهاية</label>
+                                    <input type="date" id="discountEndDate">
+                                </div>
+                            </div>
+                            
+                            <button id="startDiscountBtn" class="btn btn-pink" data-translate="start_discount">بدء الخصم</button>
+                        </div>
+                        
+                        <div class="discount-list">
+                            <h3 data-translate="active_discounts">أكواد الخصم النشطة</h3>
+                            <div id="discountsList">
+                                <!-- Discounts will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Admin Contact Management -->
+                <section id="adminContactSection" class="admin-section hidden">
+                    <h3 data-translate="edit_contact_page_content">تحرير محتوى صفحة الاتصال</h3>
+                    
+                    <div class="form-group">
+                        <label for="adminStoreName" data-translate="store_name">اسم المتجر</label>
+                        <input type="text" id="adminStoreName" value="د. جوستو مستلزمات تزيين الكيك والشوكولاتة">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminStoreInfo" data-translate="store_information">معلومات المتجر</label>
+                        <textarea id="adminStoreInfo" rows="6">نوفر مستلزمات تزيين الكيك والشوكولاتة عالية الجودة للخبازين المحترفين وهواة المنازل. تم اختيار منتجاتنا بعناية لضمان أفضل النتائج لإبداعاتك.</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminContactDetails" data-translate="contact_details">تفاصيل الاتصال (سطر واحد لكل عنصر)</label>
+                        <textarea id="adminContactDetails" rows="6">قطر
+77791874
+info@drgustoshop.com
+ساعات العمل: من 8:00 صباحاً إلى 10:00 مساءً</textarea>
+                    </div>
+                    
+                    <button id="saveContactBtn" class="btn" data-translate="save_contact_page">حفظ صفحة الاتصال</button>
+                </section>
+                
+                <!-- Admin Orders Management -->
+                <section id="adminOrdersSection" class="admin-section hidden">
+                    <h3 data-translate="customer_orders">طلبات العملاء</h3>
+                    
+                    <div class="orders-list" id="adminOrdersList">
+                        <!-- Orders will be loaded here -->
+                    </div>
+                </section>
+                
+                <!-- Site Editor -->
+                <section id="adminSiteEditorSection" class="admin-section hidden">
+                    <h3 data-translate="site_editor">محرر محتوى الموقع</h3>
+                    <p class="mb-20" data-translate="site_editor_description">يمكنك هنا تحرير أي نص في الموقع. اختر النص من القائمة ثم عدله.</p>
+                    
+                    <div class="site-editor">
+                        <div class="editor-item">
+                            <label for="editorKey" data-translate="select_text_to_edit">اختر النص للتحرير:</label>
+                            <select id="editorKey" class="form-control">
+                                <option value="products_title">عنوان صفحة المنتجات</option>
+                                <option value="proceed_to_checkout">زر إتمام الشراء</option>
+                                <option value="shopping_cart">عنوان سلة التسوق</option>
+                                <option value="discount_codes">عنوان أكواد الخصم</option>
+                                <option value="subtotal">المجموع الفرعي</option>
+                                <option value="discount">الخصم</option>
+                                <option value="total">الإجمالي</option>
+                                <option value="proceed_to_payment">زر المتابعة للدفع</option>
+                                <option value="contact_us">عنوان صفحة الاتصال</option>
+                                <option value="store_name">اسم المتجر</option>
+                                <option value="qatar">قطر</option>
+                                <option value="working_hours">ساعات العمل</option>
+                                <option value="about_our_store">عن متجرنا</option>
+                                <option value="store_description">وصف المتجر</option>
+                                <option value="send_us_message">أرسل لنا رسالة</option>
+                                <option value="your_name">اسمك</option>
+                                <option value="email_address">البريد الإلكتروني</option>
+                                <option value="message">الرسالة</option>
+                                <option value="send_message">إرسال الرسالة</option>
+                                <option value="account_information">معلومات الحساب</option>
+                                <option value="email">البريد الإلكتروني</option>
+                                <option value="password">كلمة المرور</option>
+                                <option value="account_type">نوع الحساب</option>
+                                <option value="back_to_main">العودة للرئيسية</option>
+                                <option value="admin_dashboard">لوحة تحكم المدير</option>
+                                <option value="manage_products">إدارة المنتجات</option>
+                                <option value="manage_discounts">إدارة الخصومات</option>
+                                <option value="edit_contact_page">تحرير صفحة الاتصال</option>
+                                <option value="view_orders">عرض الطلبات</option>
+                                <option value="site_editor">محرر الموقع</option>
+                                <option value="product_name">اسم المنتج</option>
+                                <option value="product_description">وصف المنتج</option>
+                                <option value="product_price">سعر المنتج</option>
+                                <option value="product_image">صورة المنتج</option>
+                                <option value="add_product">إضافة منتج</option>
+                                <option value="existing_products">المنتجات الحالية</option>
+                                <option value="discount_code">كود الخصم</option>
+                                <option value="discount_percentage">نسبة الخصم</option>
+                                <option value="start_date">تاريخ البداية</option>
+                                <option value="end_date">تاريخ النهاية</option>
+                                <option value="start_discount">بدء الخصم</option>
+                                <option value="active_discounts">أكواد الخصم النشطة</option>
+                                <option value="edit_contact_page_content">تحرير محتوى صفحة الاتصال</option>
+                                <option value="store_information">معلومات المتجر</option>
+                                <option value="contact_details">تفاصيل الاتصال</option>
+                                <option value="save_contact_page">حفظ صفحة الاتصال</option>
+                                <option value="customer_orders">طلبات العملاء</option>
+                                <option value="site_editor_description">وصف محرر الموقع</option>
+                                <option value="select_text_to_edit">اختر النص للتحرير</option>
+                                <option value="save_text">حفظ النص</option>
+                                <option value="location_selection">اختيار الموقع</option>
+                                <option value="please_select_location">الرجاء تحديد موقعك على الخريطة</option>
+                                <option value="city">المدينة</option>
+                                <option value="street">الشارع</option>
+                                <option value="house_number">رقم المنزل</option>
+                                <option value="phone">الهاتف</option>
+                                <option value="select_on_map">حدد موقعك على الخريطة</option>
+                                <option value="submit_delivery_info">تقديم معلومات التسليم</option>
+                                <option value="order_confirmation">تأكيد الطلب</option>
+                                <option value="thank_you_order">شكراً لك على طلبك!</option>
+                                <option value="transfer_account">الرجاء التحويل إلى الحساب</option>
+                                <option value="continue_qnb">المتابعة إلى البنك QNB الإلكتروني</option>
+                                <option value="order_sent_to_admin">تم إرسال طلبك إلى مدير المتجر</option>
+                            </select>
+                        </div>
+                        
+                        <div class="editor-item">
+                            <label for="editorValue" data-translate="text_value">قيمة النص:</label>
+                            <textarea id="editorValue"></textarea>
+                        </div>
+                        
+                        <button id="saveTextBtn" class="btn" data-translate="save_text">حفظ النص</button>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <!-- Payment Steps -->
+        <section id="paymentPage" class="container hidden">
+            <h1 class="page-title" data-translate="checkout_and_payment">الدفع والتسليم</h1>
+            
+            <div class="payment-steps">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <div class="step-line"></div>
+                    <p data-translate="cart">السلة</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-line"></div>
+                    <p data-translate="location_selection">اختيار الموقع</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-line"></div>
+                    <p data-translate="confirmation">التأكيد</p>
+                </div>
+            </div>
+            
+            <div class="payment-info">
+                <h2 class="mb-20" data-translate="complete_your_purchase">أكمل عملية الشراء</h2>
+                <p data-translate="your_order_total">إجمالي طلبك: <strong id="orderTotalAmount">ريال قطري 0.00</strong></p>
+                
+                <div class="bank-details" id="bankDetails">
+                    <span data-translate="transfer_account">الرجاء التحويل إلى الحساب</span> <strong>77791874</strong> <span data-translate="immediately_qnb">فوراً QNB</span>
+                </div>
+                
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i> للاستفسارات: <strong>77791874</strong>
+                </div>
+                
+                <p class="mb-20" data-translate="after_payment_continue">بعد الدفع، اضغط على متابعة لتقديم عنوان التسليم.</p>
+                
+                <button id="continueToLocationBtn" class="btn btn-pink" data-translate="continue">متابعة</button>
+            </div>
+        </section>
+
+        <!-- Location Page -->
+        <section id="locationPage" class="container hidden">
+            <h1 class="page-title" data-translate="delivery_information">معلومات التسليم</h1>
+            
+            <div class="payment-steps">
+                <div class="step completed">
+                    <div class="step-number"><i class="fas fa-check"></i></div>
+                    <div class="step-line"></div>
+                    <p data-translate="cart">السلة</p>
+                </div>
+                <div class="step active">
+                    <div class="step-number">2</div>
+                    <div class="step-line"></div>
+                    <p data-translate="location_selection">اختيار الموقع</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-line"></div>
+                    <p data-translate="confirmation">التأكيد</p>
+                </div>
+            </div>
+            
+            <div id="deliveryAlert" class="alert-message hidden"></div>
+            
+            <div class="alert-message alert-error" id="locationRequiredAlert">
+                <strong data-translate="please_select_location">الرجاء تحديد موقعك على الخريطة</strong>
+            </div>
+            
+            <div class="location-form">
+                <div class="form-group">
+                    <label for="city" data-translate="city">المدينة</label>
+                    <input type="text" id="city" placeholder="أدخل مدينتك">
+                </div>
+                
+                <div class="form-group">
+                    <label for="street" data-translate="street">اسم الشارع</label>
+                    <input type="text" id="street" placeholder="أدخل اسم الشارع">
+                </div>
+                
+                <div class="form-group">
+                    <label for="houseNumber" data-translate="house_number">رقم المنزل</label>
+                    <input type="text" id="houseNumber" placeholder="أدخل رقم المنزل">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" data-translate="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" placeholder="أدخل رقم هاتفك">
+                </div>
+                
+                <div class="form-group">
+                    <label data-translate="select_on_map">حدد موقعك على الخريطة</label>
+                    <div id="map" class="map-container"></div>
+                    <p class="mt-20"><small data-translate="click_map_to_select">انقر على الخريطة لتحديد موقعك الدقيق للتسليم.</small></p>
+                </div>
+                
+                <button id="submitLocationBtn" class="btn btn-pink" data-translate="submit_delivery_info">تقديم معلومات التسليم</button>
+            </div>
+        </section>
+
+        <!-- Final Confirmation Page -->
+        <section id="confirmationPage" class="container hidden">
+            <h1 class="page-title" data-translate="order_confirmation">تأكيد الطلب</h1>
+            
+            <div class="payment-steps">
+                <div class="step completed">
+                    <div class="step-number"><i class="fas fa-check"></i></div>
+                    <div class="step-line"></div>
+                    <p data-translate="cart">السلة</p>
+                </div>
+                <div class="step completed">
+                    <div class="step-number"><i class="fas fa-check"></i></div>
+                    <div class="step-line"></div>
+                    <p data-translate="location_selection">اختيار الموقع</p>
+                </div>
+                <div class="step active">
+                    <div class="step-number">3</div>
+                    <p data-translate="confirmation">التأكيد</p>
+                </div>
+            </div>
+            
+            <div class="payment-info">
+                <h2 class="mb-20" data-translate="thank_you_order">شكراً لك على طلبك!</h2>
+                
+                <div class="bank-details">
+                    <span data-translate="transfer_account">الرجاء التحويل إلى الحساب</span> <strong>77791874</strong> <span data-translate="immediately_qnb">فوراً QNB</span>
+                </div>
+                
+                <div class="contact-phone">
+                    <i class="fas fa-phone"></i> للاستفسارات: <strong>77791874</strong>
+                </div>
+                
+                <p class="mb-20" data-translate="after_payment_redirect">بعد الدفع، ستتم إعادة توجيهك لإكمال المعاملة.</p>
+                
+                <button id="finalContinueBtn" class="btn btn-pink" data-translate="continue_qnb">المتابعة إلى البنك QNB الإلكتروني</button>
+                
+                <p class="mt-20"><small data-translate="order_sent_to_admin">تم إرسال طلبك إلى مدير المتجر للمعالجة.</small></p>
+            </div>
+        </section>
+
+        <!-- Product Details Modal -->
+        <div id="productModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="modal-close" id="modalClose">&times;</button>
+                <div class="product-details" id="productDetailsContent">
+                    <!-- Product details will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4 data-translate="dr_gusto_shop">متجر د. جوستو</h4>
+                        <p data-translate="footer_description">مستلزمات تزيين الكيك والشوكولاتة الفاخرة في قطر.</p>
+                        <p data-translate="quality_products">منتجات عالية الجودة للخبازين المحترفين وهواة المنازل.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 data-translate="quick_links">روابط سريعة</h4>
+                        <a href="#" class="nav-to-products" data-translate="products">المنتجات</a>
+                        <a href="#" class="nav-to-contact" data-translate="contact_us">اتصل بنا</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4 data-translate="contact_info">معلومات الاتصال</h4>
+                        <p data-translate="qatar">قطر</p>
+                        <p>77791874</p>
+                        <p>info@drgustoshop.com</p>
+                        <p data-translate="working_hours_footer">ساعات العمل: من 8:00 صباحاً إلى 10:00 مساءً</p>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2023 <span data-translate="dr_gusto_shop">متجر د. جوستو</span>. <span data-translate="all_rights_reserved">جميع الحقوق محفوظة.</span> | drgustoshop.com
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Application State
+        let currentUser = null;
+        let isAdmin = false;
+        let cart = [];
+        let products = [
+            { 
+                id: 1, 
+                name: "أواني إذابة الشوكولاتة", 
+                price: 45.00,
+                description: "أواني خاصة لإذابة الشوكولاتة بدرجة حرارة مثالية للحفاظ على قوامها وطعمها.",
+                image: null,
+                imageData: null,
+                comments: []
+            },
+            { 
+                id: 2, 
+                name: "عدة تزيين الكيك", 
+                price: 89.00,
+                description: "عدة متكاملة تحتوي على جميع الأدوات اللازمة لتزيين الكيك بشكل احترافي.",
+                image: null,
+                imageData: null,
+                comments: []
+            },
+            { 
+                id: 3, 
+                name: "مسحوق الكاكاو الفاخر", 
+                price: 32.50,
+                description: "مسحوق كاكاو عالي الجودة من أفضل حبوب الكاكاو المستوردة.",
+                image: null,
+                imageData: null,
+                comments: []
+            },
+            { 
+                id: 4, 
+                name: "نشابة الفوندان", 
+                price: 24.00,
+                description: "نشابة خاصة لتسهيل فرد عجينة الفوندان بالتساوي على الكيك.",
+                image: null,
+                imageData: null,
+                comments: []
+            }
+        ];
+        
+        let orders = [];
+        let map = null;
+        let marker = null;
+        let storeLocation = [25.2854, 51.5310]; // إحداثيات محل د. جوستو في قطر
+        let discounts = [];
+        let currentLanguage = 'ar';
+        let translations = {};
+        let isLocationSelected = false;
+        let currentImageFile = null;
+
+        // ترجمات الموقع
+        translations = {
+            ar: {
+                // الصفحات الرئيسية
+                products_title: "منتجاتنا الفاخرة",
+                proceed_to_checkout: "إتمام الشراء",
+                shopping_cart: "سلة التسوق",
+                discount_codes: "أكواد الخصم",
+                subtotal: "المجموع الفرعي:",
+                discount: "الخصم:",
+                total: "الإجمالي:",
+                proceed_to_payment: "المتابعة للدفع",
+                contact_us: "اتصل بنا",
+                store_name: "د. جوستو مستلزمات تزيين الكيك والشوكولاتة",
+                qatar: "قطر",
+                working_hours: "ساعات العمل: من 8:00 صباحاً إلى 10:00 مساءً",
+                working_hours_footer: "ساعات العمل: من 8:00 صباحاً إلى 10:00 مساءً",
+                about_our_store: "عن متجرنا",
+                store_description: "نوفر مستلزمات تزيين الكيك والشوكولاتة عالية الجودة للخبازين المحترفين وهواة المنازل. تم اختيار منتجاتنا بعناية لضمان أفضل النتائج لإبداعاتك.",
+                send_us_message: "أرسل لنا رسالة",
+                your_name: "اسمك",
+                email_address: "البريد الإلكتروني",
+                message: "الرسالة",
+                send_message: "إرسال الرسالة",
+                account_information: "معلومات الحساب",
+                email: "البريد الإلكتروني:",
+                password: "كلمة المرور:",
+                account_type: "نوع الحساب:",
+                back_to_main: "العودة للرئيسية",
+                
+                // لوحة التحكم
+                admin_dashboard: "لوحة تحكم المدير",
+                manage_products: "إدارة المنتجات",
+                manage_discounts: "إدارة الخصومات",
+                edit_contact_page: "تحرير صفحة الاتصال",
+                view_orders: "عرض الطلبات",
+                site_editor: "محرر الموقع",
+                product_name: "اسم المنتج",
+                product_description: "وصف المنتج",
+                product_price: "السعر (ريال قطري)",
+                product_image: "صورة المنتج",
+                add_product: "إضافة منتج",
+                existing_products: "المنتجات الحالية",
+                discount_code: "كود الخصم",
+                discount_percentage: "نسبة الخصم (%)",
+                start_date: "تاريخ البداية",
+                end_date: "تاريخ النهاية",
+                start_discount: "بدء الخصم",
+                active_discounts: "أكواد الخصم النشطة",
+                edit_contact_page_content: "تحرير محتوى صفحة الاتصال",
+                store_information: "معلومات المتجر",
+                contact_details: "تفاصيل الاتصال (سطر واحد لكل عنصر)",
+                save_contact_page: "حفظ صفحة الاتصال",
+                customer_orders: "طلبات العملاء",
+                site_editor_description: "يمكنك هنا تحرير أي نص في الموقع. اختر النص من القائمة ثم عدله.",
+                select_text_to_edit: "اختر النص للتحرير:",
+                text_value: "قيمة النص:",
+                save_text: "حفظ النص",
+                
+                // صفحة الدفع والتسليم
+                checkout_and_payment: "الدفع والتسليم",
+                cart: "السلة",
+                location_selection: "اختيار الموقع",
+                confirmation: "التأكيد",
+                complete_your_purchase: "أكمل عملية الشراء",
+                your_order_total: "إجمالي طلبك:",
+                transfer_account: "الرجاء التحويل إلى الحساب",
+                immediately_qnb: "فوراً QNB",
+                after_payment_continue: "بعد الدفع، اضغط على متابعة لتقديم عنوان التسليم.",
+                continue: "متابعة",
+                delivery_information: "معلومات التسليم",
+                please_select_location: "الرجاء تحديد موقعك على الخريطة",
+                city: "المدينة",
+                street: "الشارع",
+                house_number: "رقم المنزل",
+                phone: "الهاتف",
+                select_on_map: "حدد موقعك على الخريطة",
+                click_map_to_select: "انقر على الخريطة لتحديد موقعك الدقيق للتسليم.",
+                submit_delivery_info: "تقديم معلومات التسليم",
+                order_confirmation: "تأكيد الطلب",
+                thank_you_order: "شكراً لك على طلبك!",
+                after_payment_redirect: "بعد الدفع، ستتم إعادة توجيهك لإكمال المعاملة.",
+                continue_qnb: "المتابعة إلى البنك QNB الإلكتروني",
+                order_sent_to_admin: "تم إرسال طلبك إلى مدير المتجر للمعالجة.",
+                
+                // الفوتر
+                dr_gusto_shop: "متجر د. جوستو",
+                footer_description: "مستلزمات تزيين الكيك والشوكولاتة الفاخرة في قطر.",
+                quality_products: "منتجات عالية الجودة للخبازين المحترفين وهواة المنازل.",
+                quick_links: "روابط سريعة",
+                products: "المنتجات",
+                contact_info: "معلومات الاتصال",
+                all_rights_reserved: "جميع الحقوق محفوظة."
+            },
+            en: {
+                products_title: "Our Premium Products",
+                proceed_to_checkout: "Proceed to Checkout",
+                shopping_cart: "Shopping Cart",
+                discount_codes: "Discount Codes",
+                subtotal: "Subtotal:",
+                discount: "Discount:",
+                total: "Total:",
+                proceed_to_payment: "Proceed to Payment",
+                contact_us: "Contact Us",
+                store_name: "Dr. Gusto Cake & Chocolate Decorating Supplies",
+                qatar: "Qatar",
+                working_hours: "Working Hours: 8:00 AM - 10:00 PM",
+                working_hours_footer: "Working Hours: 8:00 AM - 10:00 PM",
+                about_our_store: "About Our Store",
+                store_description: "We provide premium quality cake and chocolate decorating supplies for professional bakers and home enthusiasts. Our products are carefully selected to ensure the best results for your creations.",
+                send_us_message: "Send Us a Message",
+                your_name: "Your Name",
+                email_address: "Email Address",
+                message: "Message",
+                send_message: "Send Message",
+                account_information: "Account Information",
+                email: "Email:",
+                password: "Password:",
+                account_type: "Account Type:",
+                back_to_main: "Back to Main",
+                admin_dashboard: "Administrator Dashboard",
+                manage_products: "Manage Products",
+                manage_discounts: "Manage Discounts",
+                edit_contact_page: "Edit Contact Page",
+                view_orders: "View Orders",
+                site_editor: "Site Editor",
+                product_name: "Product Name",
+                product_description: "Product Description",
+                product_price: "Price (QAR)",
+                product_image: "Product Image",
+                add_product: "Add Product",
+                existing_products: "Existing Products",
+                discount_code: "Discount Code",
+                discount_percentage: "Discount Percentage (%)",
+                start_date: "Start Date",
+                end_date: "End Date",
+                start_discount: "Start Discount",
+                active_discounts: "Active Discounts",
+                edit_contact_page_content: "Edit Contact Page Content",
+                store_information: "Store Information",
+                contact_details: "Contact Details (one per line)",
+                save_contact_page: "Save Contact Page",
+                customer_orders: "Customer Orders",
+                site_editor_description: "Here you can edit any text on the site. Select the text from the menu then edit it.",
+                select_text_to_edit: "Select text to edit:",
+                text_value: "Text value:",
+                save_text: "Save Text",
+                checkout_and_payment: "Checkout & Payment",
+                cart: "Cart",
+                location_selection: "Location Selection",
+                confirmation: "Confirmation",
+                complete_your_purchase: "Complete Your Purchase",
+                your_order_total: "Your order total:",
+                transfer_account: "Please transfer to account",
+                immediately_qnb: "immediately QNB",
+                after_payment_continue: "After payment, click continue to provide your delivery address.",
+                continue: "Continue",
+                delivery_information: "Delivery Information",
+                please_select_location: "Please select your location on the map",
+                city: "City",
+                street: "Street",
+                house_number: "House Number",
+                phone: "Phone",
+                select_on_map: "Select your location on the map",
+                click_map_to_select: "Click on the map to mark your exact location for delivery.",
+                submit_delivery_info: "Submit Delivery Information",
+                order_confirmation: "Order Confirmation",
+                thank_you_order: "Thank You For Your Order!",
+                after_payment_redirect: "After payment, you will be redirected to complete the transaction.",
+                continue_qnb: "Continue to QNB Online Banking",
+                order_sent_to_admin: "Your order has been sent to the store administrator for processing.",
+                dr_gusto_shop: "Dr. Gusto Shop",
+                footer_description: "Premium Cake & Chocolate Decorating Supplies in Qatar.",
+                quality_products: "Quality products for professional bakers and home enthusiasts.",
+                quick_links: "Quick Links",
+                products: "Products",
+                contact_info: "Contact Info",
+                all_rights_reserved: "All rights reserved."
+            },
+            es: {
+                products_title: "Nuestros Productos Premium",
+                proceed_to_checkout: "Proceder al Pago",
+                shopping_cart: "Carrito de Compras",
+                discount_codes: "Códigos de Descuento",
+                subtotal: "Subtotal:",
+                discount: "Descuento:",
+                total: "Total:",
+                proceed_to_payment: "Proceder al Pago",
+                contact_us: "Contáctenos",
+                store_name: "Dr. Gusto Suministros para Decorar Pasteles y Chocolate",
+                qatar: "Qatar",
+                working_hours: "Horario: 8:00 AM - 10:00 PM",
+                working_hours_footer: "Horario: 8:00 AM - 10:00 PM",
+                about_our_store: "Sobre Nuestra Tienda",
+                store_description: "Proporcionamos suministros de alta calidad para decorar pasteles y chocolate para panaderos profesionales y entusiastas del hogar. Nuestros productos son cuidadosamente seleccionados para garantizar los mejores resultados para sus creaciones.",
+                send_us_message: "Envíenos un Mensaje",
+                your_name: "Su Nombre",
+                email_address: "Correo Electrónico",
+                message: "Mensaje",
+                send_message: "Enviar Mensaje",
+                account_information: "Información de la Cuenta",
+                email: "Correo electrónico:",
+                password: "Contraseña:",
+                account_type: "Tipo de cuenta:",
+                back_to_main: "Volver al Principal",
+                admin_dashboard: "Panel de Administración",
+                manage_products: "Gestionar Productos",
+                manage_discounts: "Gestionar Descuentos",
+                edit_contact_page: "Editar Página de Contacto",
+                view_orders: "Ver Pedidos",
+                site_editor: "Editor del Sitio",
+                product_name: "Nombre del Producto",
+                product_description: "Descripción del Producto",
+                product_price: "Precio (QAR)",
+                product_image: "Imagen del Producto",
+                add_product: "Agregar Producto",
+                existing_products: "Productos Existentes",
+                discount_code: "Código de Descuento",
+                discount_percentage: "Porcentaje de Descuento (%)",
+                start_date: "Fecha de Inicio",
+                end_date: "Fecha de Finalización",
+                start_discount: "Iniciar Descuento",
+                active_discounts: "Descuentos Activos",
+                edit_contact_page_content: "Editar Contenido de la Página de Contacto",
+                store_information: "Información de la Tienda",
+                contact_details: "Detalles de Contacto (uno por línea)",
+                save_contact_page: "Guardar Página de Contacto",
+                customer_orders: "Pedidos de Clientes",
+                site_editor_description: "Aquí puede editar cualquier texto en el sitio. Seleccione el texto del menú y luego edítelo.",
+                select_text_to_edit: "Seleccionar texto para editar:",
+                text_value: "Valor del texto:",
+                save_text: "Guardar Texto",
+                checkout_and_payment: "Pago y Entrega",
+                cart: "Carrito",
+                location_selection: "Selección de Ubicación",
+                confirmation: "Confirmación",
+                complete_your_purchase: "Complete Su Compra",
+                your_order_total: "Total de su pedido:",
+                transfer_account: "Por favor transfiera a la cuenta",
+                immediately_qnb: "inmediatamente QNB",
+                after_payment_continue: "Después del pago, haga clic en continuar para proporcionar su dirección de entrega.",
+                continue: "Continuar",
+                delivery_information: "Información de Entrega",
+                please_select_location: "Por favor seleccione su ubicación en el mapa",
+                city: "Ciudad",
+                street: "Calle",
+                house_number: "Número de Casa",
+                phone: "Teléfono",
+                select_on_map: "Seleccione su ubicación en el mapa",
+                click_map_to_select: "Haga clic en el mapa para marcar su ubicación exacta para la entrega.",
+                submit_delivery_info: "Enviar Información de Entrega",
+                order_confirmation: "Confirmación del Pedido",
+                thank_you_order: "¡Gracias por su pedido!",
+                after_payment_redirect: "Después del pago, será redirigido para completar la transacción.",
+                continue_qnb: "Continuar a la Banca en Línea QNB",
+                order_sent_to_admin: "Su pedido ha sido enviado al administrador de la tienda para su procesamiento.",
+                dr_gusto_shop: "Tienda Dr. Gusto",
+                footer_description: "Suministros Premium para Decorar Pasteles y Chocolate en Qatar.",
+                quality_products: "Productos de calidad para panaderos profesionales y entusiastas del hogar.",
+                quick_links: "Enlaces Rápidos",
+                products: "Productos",
+                contact_info: "Información de Contacto",
+                all_rights_reserved: "Todos los derechos reservados."
+            },
+            tr: {
+                products_title: "Premium Ürünlerimiz",
+                proceed_to_checkout: "Ödemeye Geç",
+                shopping_cart: "Alışveriş Sepeti",
+                discount_codes: "İndirim Kodları",
+                subtotal: "Ara Toplam:",
+                discount: "İndirim:",
+                total: "Toplam:",
+                proceed_to_payment: "Ödemeye Geç",
+                contact_us: "Bize Ulaşın",
+                store_name: "Dr. Gusto Pasta ve Çikolata Dekorasyon Malzemeleri",
+                qatar: "Katar",
+                working_hours: "Çalışma Saatleri: 8:00 - 22:00",
+                working_hours_footer: "Çalışma Saatleri: 8:00 - 22:00",
+                about_our_store: "Mağazamız Hakkında",
+                store_description: "Profesyonel fırıncılar ve ev meraklıları için premium kalitede pasta ve çikolata dekorasyon malzemeleri sağlıyoruz. Ürünlerimiz, yaratımlarınız için en iyi sonuçları garanti etmek için özenle seçilmiştir.",
+                send_us_message: "Bize Mesaj Gönderin",
+                your_name: "Adınız",
+                email_address: "E-posta Adresi",
+                message: "Mesaj",
+                send_message: "Mesaj Gönder",
+                account_information: "Hesap Bilgileri",
+                email: "E-posta:",
+                password: "Şifre:",
+                account_type: "Hesap Türü:",
+                back_to_main: "Ana Sayfaya Dön",
+                admin_dashboard: "Yönetici Paneli",
+                manage_products: "Ürünleri Yönet",
+                manage_discounts: "İndirimleri Yönet",
+                edit_contact_page: "İletişim Sayfasını Düzenle",
+                view_orders: "Siparişleri Görüntüle",
+                site_editor: "Site Editörü",
+                product_name: "Ürün Adı",
+                product_description: "Ürün Açıklaması",
+                product_price: "Fiyat (QAR)",
+                product_image: "Ürün Resmi",
+                add_product: "Ürün Ekle",
+                existing_products: "Mevcut Ürünler",
+                discount_code: "İndirim Kodu",
+                discount_percentage: "İndirim Yüzdesi (%)",
+                start_date: "Başlangıç Tarihi",
+                end_date: "Bitiş Tarihi",
+                start_discount: "İndirimi Başlat",
+                active_discounts: "Aktif İndirimler",
+                edit_contact_page_content: "İletişim Sayfası İçeriğini Düzenle",
+                store_information: "Mağaza Bilgisi",
+                contact_details: "İletişim Detayları (her satırda bir)",
+                save_contact_page: "İletişim Sayfasını Kaydet",
+                customer_orders: "Müşteri Siparişleri",
+                site_editor_description: "Burada sitedeki herhangi bir metni düzenleyebilirsiniz. Menüden metni seçin ve ardından düzenleyin.",
+                select_text_to_edit: "Düzenlenecek metni seçin:",
+                text_value: "Metin değeri:",
+                save_text: "Metni Kaydet",
+                checkout_and_payment: "Ödeme ve Teslimat",
+                cart: "Sepet",
+                location_selection: "Konum Seçimi",
+                confirmation: "Onay",
+                complete_your_purchase: "Alışverişinizi Tamamlayın",
+                your_order_total: "Sipariş toplamınız:",
+                transfer_account: "Lütfen hesaba transfer yapın",
+                immediately_qnb: "hemen QNB",
+                after_payment_continue: "Ödemeden sonra, teslimat adresinizi sağlamak için devam et'e tıklayın.",
+                continue: "Devam Et",
+                delivery_information: "Teslimat Bilgileri",
+                please_select_location: "Lütfen haritada konumunuzu seçin",
+                city: "Şehir",
+                street: "Sokak",
+                house_number: "Ev Numarası",
+                phone: "Telefon",
+                select_on_map: "Haritada konumunuzu seçin",
+                click_map_to_select: "Teslimat için tam konumunuzu işaretlemek için haritaya tıklayın.",
+                submit_delivery_info: "Teslimat Bilgilerini Gönder",
+                order_confirmation: "Sipariş Onayı",
+                thank_you_order: "Siparişiniz İçin Teşekkürler!",
+                after_payment_redirect: "Ödemeden sonra işlemi tamamlamak için yönlendirileceksiniz.",
+                continue_qnb: "QNB Çevrimiçi Bankacılığa Devam Et",
+                order_sent_to_admin: "Siparişiniz işlenmek üzere mağaza yöneticisine gönderildi.",
+                dr_gusto_shop: "Dr. Gusto Mağazası",
+                footer_description: "Katar'da Premium Pasta ve Çikolata Dekorasyon Malzemeleri.",
+                quality_products: "Profesyonel fırıncılar ve ev meraklıları için kaliteli ürünler.",
+                quick_links: "Hızlı Bağlantılar",
+                products: "Ürünler",
+                contact_info: "İletişim Bilgileri",
+                all_rights_reserved: "Tüm hakları saklıdır."
+            }
+        };
+
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const appContainer = document.getElementById('appContainer');
+        const loginForm = document.getElementById('loginForm');
+        const navProducts = document.getElementById('navProducts');
+        const navContact = document.getElementById('navContact');
+        const navAdmin = document.getElementById('navAdmin');
+        const productsPage = document.getElementById('productsPage');
+        const contactPage = document.getElementById('contactPage');
+        const cartPage = document.getElementById('cartPage');
+        const accountPage = document.getElementById('accountPage');
+        const adminPage = document.getElementById('adminPage');
+        const paymentPage = document.getElementById('paymentPage');
+        const locationPage = document.getElementById('locationPage');
+        const confirmationPage = document.getElementById('confirmationPage');
+        const cartTotal = document.getElementById('cartTotal');
+        const productsGrid = document.getElementById('productsGrid');
+        const productSearch = document.getElementById('productSearch');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const contactForm = document.getElementById('contactForm');
+        const adminProductsBtn = document.getElementById('adminProductsBtn');
+        const adminContactBtn = document.getElementById('adminContactBtn');
+        const adminOrdersBtn = document.getElementById('adminOrdersBtn');
+        const adminDiscountsBtn = document.getElementById('adminDiscountsBtn');
+        const adminSiteEditorBtn = document.getElementById('adminSiteEditorBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const adminProductsSection = document.getElementById('adminProductsSection');
+        const adminContactSection = document.getElementById('adminContactSection');
+        const adminOrdersSection = document.getElementById('adminOrdersSection');
+        const adminDiscountsSection = document.getElementById('adminDiscountsSection');
+        const adminSiteEditorSection = document.getElementById('adminSiteEditorSection');
+        const addProductBtn = document.getElementById('addProductBtn');
+        const adminProductName = document.getElementById('adminProductName');
+        const adminProductDescription = document.getElementById('adminProductDescription');
+        const adminProductPrice = document.getElementById('adminProductPrice');
+        const adminProductImageFile = document.getElementById('adminProductImageFile');
+        const adminProductsList = document.getElementById('adminProductsList');
+        const saveContactBtn = document.getElementById('saveContactBtn');
+        const adminStoreName = document.getElementById('adminStoreName');
+        const adminStoreInfo = document.getElementById('adminStoreInfo');
+        const adminContactDetails = document.getElementById('adminContactDetails');
+        const adminOrdersList = document.getElementById('adminOrdersList');
+        const continueToLocationBtn = document.getElementById('continueToLocationBtn');
+        const orderTotalAmount = document.getElementById('orderTotalAmount');
+        const submitLocationBtn = document.getElementById('submitLocationBtn');
+        const city = document.getElementById('city');
+        const street = document.getElementById('street');
+        const houseNumber = document.getElementById('houseNumber');
+        const phone = document.getElementById('phone');
+        const deliveryAlert = document.getElementById('deliveryAlert');
+        const locationRequiredAlert = document.getElementById('locationRequiredAlert');
+        const finalContinueBtn = document.getElementById('finalContinueBtn');
+        const bankDetails = document.getElementById('bankDetails');
+        const cartBtn = document.getElementById('cartBtn');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsDropdown = document.getElementById('settingsDropdown');
+        const accountSettingsBtn = document.getElementById('accountSettingsBtn');
+        const languageSettingsBtn = document.getElementById('languageSettingsBtn');
+        const languageOptions = document.getElementById('languageOptions');
+        const accountEmail = document.getElementById('accountEmail');
+        const accountPassword = document.getElementById('accountPassword');
+        const accountType = document.getElementById('accountType');
+        const backToMainBtn = document.getElementById('backToMainBtn');
+        const cartItems = document.getElementById('cartItems');
+        const discountCode = document.getElementById('discountCode');
+        const applyDiscountBtn = document.getElementById('applyDiscountBtn');
+        const discountMessage = document.getElementById('discountMessage');
+        const subtotalPrice = document.getElementById('subtotalPrice');
+        const discountPrice = document.getElementById('discountPrice');
+        const totalPrice = document.getElementById('totalPrice');
+        const proceedToPaymentBtn = document.getElementById('proceedToPaymentBtn');
+        const discountCodeName = document.getElementById('discountCodeName');
+        const discountPercentage = document.getElementById('discountPercentage');
+        const discountStartDate = document.getElementById('discountStartDate');
+        const discountEndDate = document.getElementById('discountEndDate');
+        const startDiscountBtn = document.getElementById('startDiscountBtn');
+        const discountsList = document.getElementById('discountsList');
+        const editorKey = document.getElementById('editorKey');
+        const editorValue = document.getElementById('editorValue');
+        const saveTextBtn = document.getElementById('saveTextBtn');
+        const productModal = document.getElementById('productModal');
+        const modalClose = document.getElementById('modalClose');
+        const productDetailsContent = document.getElementById('productDetailsContent');
+        const productImagePreview = document.getElementById('productImagePreview');
+        const productImagePreviewImg = document.getElementById('productImagePreviewImg');
+
+        // Initialize the application
+        function initApp() {
+            // Load cart from localStorage if available
+            const savedCart = localStorage.getItem('drgustoCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+            
+            // Load products from localStorage if available
+            const savedProducts = localStorage.getItem('drgustoProducts');
+            if (savedProducts) {
+                products = JSON.parse(savedProducts);
+            }
+            
+            // Load orders from localStorage if available
+            const savedOrders = localStorage.getItem('drgustoOrders');
+            if (savedOrders) {
+                orders = JSON.parse(savedOrders);
+            }
+            
+            // Load discounts from localStorage if available
+            const savedDiscounts = localStorage.getItem('drgustoDiscounts');
+            if (savedDiscounts) {
+                discounts = JSON.parse(savedDiscounts);
+            }
+            
+            // Load language preference
+            const savedLanguage = localStorage.getItem('drgustoLanguage');
+            if (savedLanguage) {
+                currentLanguage = savedLanguage;
+            }
+            
+            // Load contact page content from localStorage if available
+            const savedContactContent = localStorage.getItem('drgustoContactContent');
+            if (savedContactContent) {
+                const contactContent = JSON.parse(savedContactContent);
+                updateContactPageDisplay(contactContent);
+            }
+            
+            // Set today's date as default for discount dates
+            const today = new Date().toISOString().split('T')[0];
+            discountStartDate.value = today;
+            discountEndDate.min = today;
+            
+            updateCartTotal();
+            renderProducts();
+            translatePage();
+            
+            // Check if user is already logged in
+            const savedUser = localStorage.getItem('drgustoUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                isAdmin = currentUser.email === 'drgusroqa@gmail.com';
+                showApp();
+            }
+            
+            // Set end date min to start date
+            discountStartDate.addEventListener('change', function() {
+                discountEndDate.min = this.value;
+            });
+            
+            // Handle image upload
+            adminProductImageFile.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    currentImageFile = file;
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        productImagePreviewImg.src = event.target.result;
+                        productImagePreviewImg.style.display = 'block';
+                        productImagePreview.querySelector('.upload-placeholder').style.display = 'none';
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Login Functionality
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Check if admin credentials
+            if (email === 'drgusroqa@gmail.com' && password === '@Motasem1982') {
+                isAdmin = true;
+                currentUser = { email, password, isAdmin: true };
+                alert('تم تسجيل الدخول كمدير النظام');
+            } else {
+                isAdmin = false;
+                currentUser = { email, password, isAdmin: false };
+                alert('تم تسجيل الدخول كعميل');
+            }
+            
+            // Save user to localStorage
+            localStorage.setItem('drgustoUser', JSON.stringify(currentUser));
+            
+            showApp();
+        });
+
+        // Show main application after login
+        function showApp() {
+            loginPage.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+            
+            if (isAdmin) {
+                navAdmin.classList.remove('hidden');
+                showAdminPage();
+            } else {
+                showProductsPage();
+            }
+        }
+
+        // Navigation
+        navProducts.addEventListener('click', function(e) {
+            e.preventDefault();
+            showProductsPage();
+        });
+
+        navContact.addEventListener('click', function(e) {
+            e.preventDefault();
+            showContactPage();
+        });
+
+        navAdmin.addEventListener('click', function(e) {
+            e.preventDefault();
+            showAdminPage();
+        });
+
+        cartBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showCartPage();
+        });
+
+        function showProductsPage() {
+            productsPage.classList.remove('hidden');
+            contactPage.classList.add('hidden');
+            cartPage.classList.add('hidden');
+            accountPage.classList.add('hidden');
+            adminPage.classList.add('hidden');
+            paymentPage.classList.add('hidden');
+            locationPage.classList.add('hidden');
+            confirmationPage.classList.add('hidden');
+            
+            navProducts.classList.add('active');
+            navContact.classList.remove('active');
+            
+            renderProducts();
+        }
+
+        function showCartPage() {
+            productsPage.classList.add('hidden');
+            contactPage.classList.add('hidden');
+            cartPage.classList.remove('hidden');
+            accountPage.classList.add('hidden');
+            adminPage.classList.add('hidden');
+            paymentPage.classList.add('hidden');
+            locationPage.classList.add('hidden');
+            confirmationPage.classList.add('hidden');
+            
+            navProducts.classList.remove('active');
+            navContact.classList.remove('active');
+            
+            renderCart();
+        }
+
+        function showContactPage() {
+            productsPage.classList.add('hidden');
+            contactPage.classList.remove('hidden');
+            cartPage.classList.add('hidden');
+            accountPage.classList.add('hidden');
+            adminPage.classList.add('hidden');
+            paymentPage.classList.add('hidden');
+            locationPage.classList.add('hidden');
+            confirmationPage.classList.add('hidden');
+            
+            navProducts.classList.remove('active');
+            navContact.classList.add('active');
+        }
+
+        function showAccountPage() {
+            productsPage.classList.add('hidden');
+            contactPage.classList.add('hidden');
+            cartPage.classList.add('hidden');
+            accountPage.classList.remove('hidden');
+            adminPage.classList.add('hidden');
+            paymentPage.classList.add('hidden');
+            locationPage.classList.add('hidden');
+            confirmationPage.classList.add('hidden');
+            
+            navProducts.classList.remove('active');
+            navContact.classList.remove('active');
+            
+            // Display account information
+            accountEmail.textContent = currentUser.email;
+            accountPassword.textContent = currentUser.password;
+            accountType.textContent = isAdmin ? 'مدير النظام' : 'مستخدم عادي';
+        }
+
+        function showAdminPage() {
+            productsPage.classList.add('hidden');
+            contactPage.classList.add('hidden');
+            cartPage.classList.add('hidden');
+            accountPage.classList.add('hidden');
+            adminPage.classList.remove('hidden');
+            paymentPage.classList.add('hidden');
+            locationPage.classList.add('hidden');
+            confirmationPage.classList.add('hidden');
+            
+            navProducts.classList.remove('active');
+            navContact.classList.remove('active');
+            
+            showAdminProductsSection();
+            renderAdminProducts();
+            renderAdminOrders();
+            renderDiscounts();
+        }
+
+        // Admin Navigation
+        adminProductsBtn.addEventListener('click', showAdminProductsSection);
+        adminDiscountsBtn.addEventListener('click', showAdminDiscountsSection);
+        adminContactBtn.addEventListener('click', showAdminContactSection);
+        adminOrdersBtn.addEventListener('click', showAdminOrdersSection);
+        adminSiteEditorBtn.addEventListener('click', showAdminSiteEditorSection);
+
+        function showAdminProductsSection() {
+            adminProductsSection.classList.remove('hidden');
+            adminDiscountsSection.classList.add('hidden');
+            adminContactSection.classList.add('hidden');
+            adminOrdersSection.classList.add('hidden');
+            adminSiteEditorSection.classList.add('hidden');
+        }
+
+        function showAdminDiscountsSection() {
+            adminProductsSection.classList.add('hidden');
+            adminDiscountsSection.classList.remove('hidden');
+            adminContactSection.classList.add('hidden');
+            adminOrdersSection.classList.add('hidden');
+            adminSiteEditorSection.classList.add('hidden');
+        }
+
+        function showAdminContactSection() {
+            adminProductsSection.classList.add('hidden');
+            adminDiscountsSection.classList.add('hidden');
+            adminContactSection.classList.remove('hidden');
+            adminOrdersSection.classList.add('hidden');
+            adminSiteEditorSection.classList.add('hidden');
+        }
+
+        function showAdminOrdersSection() {
+            adminProductsSection.classList.add('hidden');
+            adminDiscountsSection.classList.add('hidden');
+            adminContactSection.classList.add('hidden');
+            adminOrdersSection.classList.remove('hidden');
+            adminSiteEditorSection.classList.add('hidden');
+        }
+
+        function showAdminSiteEditorSection() {
+            adminProductsSection.classList.add('hidden');
+            adminDiscountsSection.classList.add('hidden');
+            adminContactSection.classList.add('hidden');
+            adminOrdersSection.classList.add('hidden');
+            adminSiteEditorSection.classList.remove('hidden');
+        }
+
+        // Settings Menu
+        settingsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            settingsDropdown.classList.toggle('show');
+        });
+
+        accountSettingsBtn.addEventListener('click', function() {
+            settingsDropdown.classList.remove('show');
+            showAccountPage();
+        });
+
+        languageSettingsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            languageOptions.classList.toggle('hidden');
+        });
+
+        // Language Selection
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                currentLanguage = lang;
+                localStorage.setItem('drgustoLanguage', lang);
+                
+                // Update active class
+                document.querySelectorAll('.lang-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                translatePage();
+                languageOptions.classList.add('hidden');
+                settingsDropdown.classList.remove('show');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            settingsDropdown.classList.remove('show');
+            languageOptions.classList.add('hidden');
+        });
+
+        // Back to main button
+        backToMainBtn.addEventListener('click', function() {
+            if (isAdmin) {
+                showAdminPage();
+            } else {
+                showProductsPage();
+            }
+        });
+
+        // Product Management
+        function renderProducts() {
+            const searchTerm = productSearch.value.toLowerCase();
+            
+            productsGrid.innerHTML = '';
+            
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm)
+            );
+            
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                const isInCart = cart.find(item => item.id === product.id);
+                const hasImage = product.imageData || product.image;
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        ${hasImage ? 
+                            `<img src="${product.imageData || product.image}" alt="${product.name}">` : 
+                            '<i class="fas fa-birthday-cake" style="font-size: 48px; color: #c084fc;"></i>'
+                        }
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">ريال قطري ${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" data-id="${product.id}">
+                            ${isInCart ? 'تم الإضافة إلى السلة' : 'أضف إلى السلة'}
+                        </button>
+                        <button class="btn btn-small mt-10 view-details" data-id="${product.id}" style="width: 100%; background-color: var(--secondary-pink);">
+                            عرض التفاصيل
+                        </button>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Add event listeners to Add to Cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+            
+            // Add event listeners to View Details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    showProductDetails(productId);
+                });
+            });
+        }
+
+        function showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+            
+            const hasImage = product.imageData || product.image;
+            
+            productDetailsContent.innerHTML = `
+                <div class="product-details-image">
+                    ${hasImage ? 
+                        `<img src="${product.imageData || product.image}" alt="${product.name}">` : 
+                        '<i class="fas fa-birthday-cake" style="font-size: 100px; color: #c084fc;"></i>'
+                    }
+                </div>
+                <div class="product-details-info">
+                    <h2>${product.name}</h2>
+                    <div class="product-price" style="font-size: 24px; margin: 15px 0;">ريال قطري ${product.price.toFixed(2)}</div>
+                    <div class="product-description">
+                        <h3>وصف المنتج:</h3>
+                        <p>${product.description || 'لا يوجد وصف لهذا المنتج.'}</p>
+                    </div>
+                    
+                    <div class="product-comments">
+                        <h3 class="comments-title">التعليقات (${product.comments ? product.comments.length : 0})</h3>
+                        <div class="comments-list">
+                            ${product.comments && product.comments.length > 0 ? 
+                                product.comments.map(comment => `
+                                    <div class="comment-item">
+                                        <div class="comment-author">${comment.author}</div>
+                                        <div class="comment-text">${comment.text}</div>
+                                        <div class="comment-date" style="font-size: 12px; color: #999; margin-top: 5px;">${comment.date}</div>
+                                    </div>
+                                `).join('') : 
+                                '<p>لا توجد تعليقات بعد.</p>'
+                            }
+                        </div>
+                        
+                        <form class="add-comment-form">
+                            <textarea class="comment-input" placeholder="اكتب تعليقك هنا..." id="newCommentText"></textarea>
+                            <button type="submit" class="btn btn-small" style="align-self: flex-end;">إضافة تعليق</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listener to comment form
+            const commentForm = productDetailsContent.querySelector('.add-comment-form');
+            if (commentForm) {
+                commentForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const commentText = document.getElementById('newCommentText').value;
+                    
+                    if (!commentText.trim()) {
+                        alert('الرجاء كتابة تعليق');
+                        return;
+                    }
+                    
+                    if (!product.comments) {
+                        product.comments = [];
+                    }
+                    
+                    product.comments.push({
+                        author: currentUser.email,
+                        text: commentText,
+                        date: new Date().toLocaleDateString('ar-QA')
+                    });
+                    
+                    // Save to localStorage
+                    localStorage.setItem('drgustoProducts', JSON.stringify(products));
+                    
+                    // Refresh product details
+                    showProductDetails(productId);
+                    document.getElementById('newCommentText').value = '';
+                });
+            }
+            
+            productModal.classList.remove('hidden');
+        }
+
+        // Close modal
+        modalClose.addEventListener('click', function() {
+            productModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        productModal.addEventListener('click', function(e) {
+            if (e.target === productModal) {
+                productModal.classList.add('hidden');
+            }
+        });
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.imageData || product.image,
+                    quantity: 1
+                });
+            }
+            
+            // Save cart to localStorage
+            localStorage.setItem('drgustoCart', JSON.stringify(cart));
+            
+            updateCartTotal();
+            renderProducts();
+            showNotification('تمت إضافة المنتج إلى السلة');
+        }
+
+        function updateCartTotal() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `ريال قطري ${total.toFixed(2)}`;
+        }
+
+        // Search functionality
+        productSearch.addEventListener('input', renderProducts);
+
+        // Cart functionality
+        function renderCart() {
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center">سلة التسوق فارغة</p>';
+                subtotalPrice.textContent = 'ريال قطري 0.00';
+                discountPrice.textContent = 'ريال قطري 0.00';
+                totalPrice.textContent = 'ريال قطري 0.00';
+                return;
+            }
+            
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-image">
+                        ${item.image ? 
+                            `<img src="${item.image}" alt="${item.name}">` : 
+                            '<i class="fas fa-birthday-cake" style="font-size: 40px; color: #c084fc;"></i>'
+                        }
+                    </div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">ريال قطري ${item.price.toFixed(2)}</div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn decrease-quantity" data-id="${item.id}">-</button>
+                            <span class="quantity-value">${item.quantity}</span>
+                            <button class="quantity-btn increase-quantity" data-id="${item.id}">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-item-remove" data-id="${item.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            // Calculate discount
+            const discount = calculateDiscount(subtotal);
+            const total = subtotal - discount;
+            
+            subtotalPrice.textContent = `ريال قطري ${subtotal.toFixed(2)}`;
+            discountPrice.textContent = `ريال قطري ${discount.toFixed(2)}`;
+            totalPrice.textContent = `ريال قطري ${total.toFixed(2)}`;
+            
+            // Add event listeners to quantity buttons
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    increaseQuantity(productId);
+                });
+            });
+            
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    decreaseQuantity(productId);
+                });
+            });
+            
+            document.querySelectorAll('.cart-item-remove').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    removeFromCart(productId);
+                });
+            });
+        }
+
+        function increaseQuantity(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += 1;
+                localStorage.setItem('drgustoCart', JSON.stringify(cart));
+                updateCartTotal();
+                renderCart();
+                renderProducts();
+            }
+        }
+
+        function decreaseQuantity(productId) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                } else {
+                    cart = cart.filter(item => item.id !== productId);
+                }
+                localStorage.setItem('drgustoCart', JSON.stringify(cart));
+                updateCartTotal();
+                renderCart();
+                renderProducts();
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('drgustoCart', JSON.stringify(cart));
+            updateCartTotal();
+            renderCart();
+            renderProducts();
+            showNotification('تمت إزالة المنتج من السلة');
+        }
+
+        // Discount functionality
+        function calculateDiscount(subtotal) {
+            let discount = 0;
+            const activeDiscount = discounts.find(d => {
+                const today = new Date();
+                const startDate = new Date(d.startDate);
+                const endDate = new Date(d.endDate);
+                return today >= startDate && today <= endDate;
+            });
+            
+            if (activeDiscount) {
+                discount = subtotal * (activeDiscount.percentage / 100);
+            }
+            
+            return discount;
+        }
+
+        applyDiscountBtn.addEventListener('click', function() {
+            const code = discountCode.value.trim().toUpperCase();
+            const activeDiscount = discounts.find(d => {
+                const today = new Date();
+                const startDate = new Date(d.startDate);
+                const endDate = new Date(d.endDate);
+                return d.code === code && today >= startDate && today <= endDate;
+            });
+            
+            if (activeDiscount) {
+                discountMessage.textContent = `تم تطبيق خصم ${activeDiscount.percentage}% بنجاح!`;
+                discountMessage.className = 'alert-message alert-success';
+                discountMessage.classList.remove('hidden');
+                showNotification(`تم تطبيق كود الخصم ${code}`);
+            } else {
+                discountMessage.textContent = 'كود الخصم غير صالح أو منتهي الصلاحية';
+                discountMessage.className = 'alert-message alert-error';
+                discountMessage.classList.remove('hidden');
+            }
+            
+            renderCart();
+        });
+
+        // Proceed to payment
+        proceedToPaymentBtn.addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('سلة الشراء فارغة. الرجاء إضافة منتجات قبل إتمام الشراء.');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = calculateDiscount(total);
+            const finalTotal = total - discount;
+            
+            orderTotalAmount.textContent = `ريال قطري ${finalTotal.toFixed(2)}`;
+            
+            cartPage.classList.add('hidden');
+            paymentPage.classList.remove('hidden');
+        });
+
+        // Checkout process
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('سلة الشراء فارغة. الرجاء إضافة منتجات قبل إتمام الشراء.');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discount = calculateDiscount(total);
+            const finalTotal = total - discount;
+            
+            orderTotalAmount.textContent = `ريال قطري ${finalTotal.toFixed(2)}`;
+            
+            productsPage.classList.add('hidden');
+            paymentPage.classList.remove('hidden');
+        });
+
+        // Continue to location page
+        continueToLocationBtn.addEventListener('click', function() {
+            paymentPage.classList.add('hidden');
+            locationPage.classList.remove('hidden');
+            
+            // Initialize map
+            if (!map) {
+                initMap();
+            }
+            
+            // Reset location flag
+            isLocationSelected = false;
+            locationRequiredAlert.classList.remove('hidden');
+        });
+
+        // Initialize map for location selection
+        function initMap() {
+            map = L.map('map').setView(storeLocation, 15);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Add store location marker
+            L.marker(storeLocation)
+                .addTo(map)
+                .bindPopup('متجر د. جوستو<br>الدوحة، قطر')
+                .openPopup();
+            
+            // Add circle showing delivery range
+            L.circle(storeLocation, {
+                color: 'blue',
+                fillColor: '#3b82f6',
+                fillOpacity: 0.1,
+                radius: 4000 // 4km in meters
+            }).addTo(map);
+            
+            // Add click event to place marker
+            map.on('click', function(e) {
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                
+                marker = L.marker(e.latlng).addTo(map);
+                marker.bindPopup('موقعك').openPopup();
+                
+                // Check delivery availability
+                checkDeliveryAvailability(e.latlng);
+                
+                // Allow proceeding to next step
+                isLocationSelected = true;
+                locationRequiredAlert.classList.add('hidden');
+            });
+        }
+
+        // Check delivery availability based on distance
+        function checkDeliveryAvailability(userLocation) {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Calculate distance from store (simplified calculation)
+            const latDiff = userLocation.lat - storeLocation[0];
+            const lngDiff = userLocation.lng - storeLocation[1];
+            const distance = Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) * 111; // Approx km
+            
+            deliveryAlert.classList.remove('hidden');
+            
+            if (total < 300) {
+                deliveryAlert.className = 'alert-message alert-error';
+                deliveryAlert.innerHTML = '<strong>التسليم غير متاح:</strong> إجمالي الطلب أقل من 300 ريال قطري. يجب عليك استلام الطلب بنفسك.';
+                return false;
+            } else if (distance > 4) {
+                deliveryAlert.className = 'alert-message alert-error';
+                deliveryAlert.innerHTML = `<strong>التسليم غير متاح:</strong> موقعك يبعد ${distance.toFixed(1)} كم عن متجرنا، وهذا يتجاوز نطاق التسليم البالغ 4 كم.`;
+                return false;
+            } else {
+                deliveryAlert.className = 'alert-message';
+                deliveryAlert.style.backgroundColor = '#d1fae5';
+                deliveryAlert.style.color = '#065f46';
+                deliveryAlert.style.borderRightColor = '#10b981';
+                deliveryAlert.innerHTML = `<strong>التسليم متاح:</strong> موقعك يبعد ${distance.toFixed(1)} كم عن متجرنا.`;
+                return true;
+            }
+        }
+
+        // Submit location information
+        submitLocationBtn.addEventListener('click', function() {
+            if (!city.value || !street.value || !houseNumber.value || !phone.value) {
+                alert('الرجاء ملء جميع حقول العنوان.');
+                return;
+            }
+            
+            if (!isLocationSelected) {
+                alert('الرجاء تحديد موقعك على الخريطة.');
+                return;
+            }
+            
+            const userLocation = marker.getLatLng();
+            const isDeliveryAvailable = checkDeliveryAvailability(userLocation);
+            
+            // Even if delivery is not available, still allow order (for pickup)
+            locationPage.classList.add('hidden');
+            confirmationPage.classList.remove('hidden');
+            
+            // Create order
+            const order = {
+                id: Date.now(),
+                user: currentUser.email,
+                city: city.value,
+                street: street.value,
+                houseNumber: houseNumber.value,
+                phone: phone.value,
+                location: { lat: userLocation.lat, lng: userLocation.lng },
+                products: [...cart],
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                date: new Date().toISOString(),
+                status: 'معلق'
+            };
+            
+            // Save order
+            orders.push(order);
+            localStorage.setItem('drgustoOrders', JSON.stringify(orders));
+            
+            // Clear cart
+            cart = [];
+            localStorage.setItem('drgustoCart', JSON.stringify(cart));
+            updateCartTotal();
+            
+            // Update admin orders view if admin is viewing
+            if (isAdmin && !adminOrdersSection.classList.contains('hidden')) {
+                renderAdminOrders();
+            }
+            
+            // Clear the form
+            city.value = '';
+            street.value = '';
+            houseNumber.value = '';
+            phone.value = '';
+        });
+
+        // Final continue button
+        finalContinueBtn.addEventListener('click', function() {
+            alert('يتم توجيهك إلى البنك QNB الإلكتروني. في التطبيق الفعلي، سيفتح هذا الرابط: https://ib.qnb.com/identity/login');
+            
+            // Return to products page
+            confirmationPage.classList.add('hidden');
+            showProductsPage();
+        });
+
+        // Admin product management
+        addProductBtn.addEventListener('click', function() {
+            const name = adminProductName.value.trim();
+            const description = adminProductDescription.value.trim();
+            const price = parseFloat(adminProductPrice.value);
+            
+            if (!name || isNaN(price) || price <= 0) {
+                alert('الرجاء إدخال اسم منتج وسعر صالحين.');
+                return;
+            }
+            
+            // Read image as base64 if file is selected
+            let imageData = null;
+            if (currentImageFile) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imageData = event.target.result;
+                    
+                    // Add product with image
+                    addProductToSystem(name, description, price, imageData);
+                };
+                reader.readAsDataURL(currentImageFile);
+            } else {
+                // Add product without image
+                addProductToSystem(name, description, price, null);
+            }
+        });
+
+        function addProductToSystem(name, description, price, imageData) {
+            const newProduct = {
+                id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
+                name: name,
+                description: description,
+                price: price,
+                imageData: imageData,
+                image: null, // Keep for backward compatibility
+                comments: []
+            };
+            
+            products.push(newProduct);
+            localStorage.setItem('drgustoProducts', JSON.stringify(products));
+            
+            // Reset form
+            adminProductName.value = '';
+            adminProductDescription.value = '';
+            adminProductPrice.value = '';
+            adminProductImageFile.value = '';
+            productImagePreviewImg.src = '';
+            productImagePreviewImg.style.display = 'none';
+            productImagePreview.querySelector('.upload-placeholder').style.display = 'flex';
+            currentImageFile = null;
+            
+            renderAdminProducts();
+            renderProducts(); // Update user products view
+            
+            alert('تمت إضافة المنتج بنجاح!');
+        }
+
+        function renderAdminProducts() {
+            adminProductsList.innerHTML = '';
+            
+            products.forEach(product => {
+                const productRow = document.createElement('div');
+                productRow.className = 'product-row';
+                
+                productRow.innerHTML = `
+                    <div>
+                        <strong>${product.name}</strong>
+                        <div>ريال قطري ${product.price.toFixed(2)}</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 5px;">${product.description.substring(0, 50)}${product.description.length > 50 ? '...' : ''}</div>
+                        <div style="font-size: 11px; color: #999; margin-top: 3px;">${product.imageData ? '✓ تحتوي على صورة' : '✗ بدون صورة'}</div>
+                    </div>
+                    <button class="delete-btn delete-product" data-id="${product.id}">حذف</button>
+                `;
+                
+                adminProductsList.appendChild(productRow);
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-product').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    deleteProduct(productId);
+                });
+            });
+        }
+
+        function deleteProduct(productId) {
+            if (!confirm('هل أنت متأكد من رغبتك في حذف هذا المنتج؟')) return;
+            
+            products = products.filter(product => product.id !== productId);
+            localStorage.setItem('drgustoProducts', JSON.stringify(products));
+            
+            renderAdminProducts();
+            renderProducts(); // Update user products view
+            
+            alert('تم حذف المنتج بنجاح!');
+        }
+
+        // Admin discount management
+        startDiscountBtn.addEventListener('click', function() {
+            const code = discountCodeName.value.trim().toUpperCase();
+            const percentage = parseFloat(discountPercentage.value);
+            const startDate = discountStartDate.value;
+            const endDate = discountEndDate.value;
+            
+            if (!code || isNaN(percentage) || percentage <= 0 || percentage > 100 || !startDate || !endDate) {
+                alert('الرجاء ملء جميع الحقول بشكل صحيح.');
+                return;
+            }
+            
+            if (new Date(endDate) < new Date(startDate)) {
+                alert('تاريخ النهاية يجب أن يكون بعد تاريخ البداية.');
+                return;
+            }
+            
+            const newDiscount = {
+                id: discounts.length > 0 ? Math.max(...discounts.map(d => d.id)) + 1 : 1,
+                code: code,
+                percentage: percentage,
+                startDate: startDate,
+                endDate: endDate
+            };
+            
+            discounts.push(newDiscount);
+            localStorage.setItem('drgustoDiscounts', JSON.stringify(discounts));
+            
+            discountCodeName.value = '';
+            discountPercentage.value = '';
+            
+            renderDiscounts();
+            alert('تم إنشاء كود الخصم بنجاح!');
+        });
+
+        function renderDiscounts() {
+            discountsList.innerHTML = '';
+            
+            if (discounts.length === 0) {
+                discountsList.innerHTML = '<p>لا توجد أكواد خصم نشطة.</p>';
+                return;
+            }
+            
+            discounts.forEach(discount => {
+                const discountItem = document.createElement('div');
+                discountItem.className = 'discount-item';
+                
+                const today = new Date();
+                const startDate = new Date(discount.startDate);
+                const endDate = new Date(discount.endDate);
+                const isActive = today >= startDate && today <= endDate;
+                
+                discountItem.innerHTML = `
+                    <div>
+                        <div class="discount-code">${discount.code}</div>
+                        <div class="discount-percentage">${discount.percentage}%</div>
+                        <div class="discount-dates">من ${discount.startDate} إلى ${discount.endDate}</div>
+                    </div>
+                    <div>
+                        <span style="color: ${isActive ? 'green' : 'red'}; font-weight: 600;">
+                            ${isActive ? 'نشط' : 'منتهي'}
+                        </span>
+                    </div>
+                `;
+                
+                discountsList.appendChild(discountItem);
+            });
+        }
+
+        // Admin contact page management
+        saveContactBtn.addEventListener('click', function() {
+            const contactContent = {
+                storeName: adminStoreName.value,
+                storeInfo: adminStoreInfo.value,
+                contactDetails: adminContactDetails.value
+            };
+            
+            localStorage.setItem('drgustoContactContent', JSON.stringify(contactContent));
+            updateContactPageDisplay(contactContent);
+            
+            alert('تم حفظ معلومات صفحة الاتصال بنجاح!');
+        });
+
+        function updateContactPageDisplay(contactContent) {
+            storeNameDisplay.textContent = contactContent.storeName;
+            storeInfoDisplay.textContent = contactContent.storeInfo;
+            
+            // Parse contact details (one per line)
+            const detailsArray = contactContent.contactDetails.split('\n');
+            contactDetailsDisplay.innerHTML = '';
+            
+            detailsArray.forEach(detail => {
+                if (detail.trim()) {
+                    const p = document.createElement('p');
+                    
+                    // Add appropriate icon based on content
+                    if (detail.includes('@')) {
+                        p.innerHTML = `<i class="fas fa-envelope"></i> ${detail}`;
+                    } else if (detail.match(/\d+/)) {
+                        p.innerHTML = `<i class="fas fa-phone"></i> ${detail}`;
+                    } else if (detail.includes('ساعات') || detail.includes('ساعة') || detail.includes('وقت')) {
+                        p.innerHTML = `<i class="fas fa-clock"></i> ${detail}`;
+                    } else {
+                        p.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${detail}`;
+                    }
+                    
+                    contactDetailsDisplay.appendChild(p);
+                }
+            });
+        }
+
+        // Site editor
+        editorKey.addEventListener('change', function() {
+            const key = this.value;
+            editorValue.value = translations[currentLanguage][key] || '';
+        });
+
+        saveTextBtn.addEventListener('click', function() {
+            const key = editorKey.value;
+            const value = editorValue.value.trim();
+            
+            if (!key || !value) {
+                alert('الرجاء اختيار نص وإدخال قيمة.');
+                return;
+            }
+            
+            translations[currentLanguage][key] = value;
+            
+            // Save translations to localStorage
+            localStorage.setItem('drgustoTranslations', JSON.stringify(translations));
+            
+            // Update the page
+            translatePage();
+            
+            alert('تم حفظ النص بنجاح!');
+        });
+
+        // Translation function
+        function translatePage() {
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[currentLanguage][key];
+                    } else {
+                        element.textContent = translations[currentLanguage][key];
+                    }
+                }
+            });
+            
+            // Update language options active state
+            document.querySelectorAll('.lang-option').forEach(option => {
+                if (option.getAttribute('data-lang') === currentLanguage) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+            
+            // Update page direction based on language
+            if (currentLanguage === 'ar') {
+                document.documentElement.dir = 'rtl';
+                document.documentElement.lang = 'ar';
+            } else {
+                document.documentElement.dir = 'ltr';
+                document.documentElement.lang = currentLanguage;
+            }
+        }
+
+        // Admin orders management
+        function renderAdminOrders() {
+            adminOrdersList.innerHTML = '';
+            
+            if (orders.length === 0) {
+                adminOrdersList.innerHTML = '<p>لا توجد طلبات بعد.</p>';
+                return;
+            }
+            
+            orders.forEach(order => {
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+                
+                const productList = order.products.map(item => 
+                    `${item.name} (${item.quantity}x) - ريال قطري ${(item.price * item.quantity).toFixed(2)}`
+                ).join('<br>');
+                
+                orderCard.innerHTML = `
+                    <button class="order-delete delete-order" data-id="${order.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <div class="order-header">
+                        <div>
+                            <strong>الطلب #${order.id}</strong>
+                            <div>${new Date(order.date).toLocaleDateString('ar-QA')}</div>
+                        </div>
+                        <div style="text-align: left;">
+                            <div><strong>الإجمالي: ريال قطري ${order.total.toFixed(2)}</strong></div>
+                            <div>الحالة: ${order.status}</div>
+                        </div>
+                    </div>
+                    <div><strong>العميل:</strong> ${order.user}</div>
+                    <div><strong>الهاتف:</strong> ${order.phone}</div>
+                    <div><strong>العنوان:</strong> ${order.houseNumber} ${order.street}, ${order.city}</div>
+                    <div><strong>الموقع:</strong> خط العرض: ${order.location.lat.toFixed(4)}, خط الطول: ${order.location.lng.toFixed(4)}</div>
+                    <div class="mt-20"><strong>المنتجات:</strong><br>${productList}</div>
+                `;
+                
+                adminOrdersList.appendChild(orderCard);
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-order').forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = parseInt(this.getAttribute('data-id'));
+                    deleteOrder(orderId);
+                });
+            });
+        }
+
+        function deleteOrder(orderId) {
+            if (!confirm('هل أنت متأكد من رغبتك في حذف هذا الطلب؟')) return;
+            
+            orders = orders.filter(order => order.id !== orderId);
+            localStorage.setItem('drgustoOrders', JSON.stringify(orders));
+            
+            renderAdminOrders();
+            
+            alert('تم حذف الطلب بنجاح!');
+        }
+
+        // Contact form submission
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('شكراً لرسالتك! سنتواصل معك قريباً.');
+            contactForm.reset();
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', function() {
+            if (confirm('هل أنت متأكد من رغبتك في تسجيل الخروج؟')) {
+                localStorage.removeItem('drgustoUser');
+                currentUser = null;
+                isAdmin = false;
+                
+                appContainer.classList.add('hidden');
+                loginPage.classList.remove('hidden');
+                
+                // Reset login form
+                loginForm.reset();
+            }
+        });
+
+        // Footer navigation
+        document.querySelectorAll('.nav-to-products').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showProductsPage();
+            });
+        });
+        
+        document.querySelectorAll('.nav-to-contact').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                showContactPage();
+            });
+        });
+
+        // Helper function to show notifications
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background-color: var(--success);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10000;
+                font-weight: 500;
+                animation: fadeInOut 3s ease-in-out;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add CSS for notification animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateY(-20px); }
+                10% { opacity: 1; transform: translateY(0); }
+                90% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize the app
+        initApp();
+    </script>
+</body>
+</html>
